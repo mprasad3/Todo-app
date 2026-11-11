@@ -28,7 +28,6 @@ export function TaskItem({
   const hasMovedRef = useRef(false);
   const containerRef = useRef(null);
 
-  // Reveal threshold to show drawer (-80px), full-swipe threshold to auto-delete (-160px)
   const SWIPE_OPEN_PX = -80;
   const SWIPE_DELETE_THRESHOLD = -160;
 
@@ -40,7 +39,6 @@ export function TaskItem({
     setTimeout(() => onDelete(task._id), 280);
   };
 
-  // Touch Handlers (Mobile / Responsive)
   const handleTouchStart = (e) => {
     if (isDeleting) return;
     startXRef.current = e.touches[0].clientX;
@@ -92,10 +90,8 @@ export function TaskItem({
     }, 60);
   };
 
-  // Mouse Handlers (Desktop View)
   const handleMouseDown = (e) => {
     if (e.button !== 0 || isDeleting) return;
-    // Don't drag if clicking buttons directly
     if (e.target.closest('button[data-no-drag="true"]')) return;
 
     isMouseDownRef.current = true;
@@ -179,7 +175,6 @@ export function TaskItem({
       className="relative overflow-hidden border-b border-[#F1F5F9] last:border-b-0"
       style={{ opacity: isDeleting ? 0 : 1, transition: isDeleting ? 'opacity 0.25s ease' : undefined }}
     >
-      {/* Swipe-Left Delete Drawer */}
       <div
         className="absolute inset-y-0 right-0 flex items-center justify-end overflow-hidden"
         style={{
@@ -200,7 +195,6 @@ export function TaskItem({
         </button>
       </div>
 
-      {/* Foreground Task Row — draggable via touch (mobile) & mouse (desktop) */}
       <div
         onMouseDown={handleMouseDown}
         onTouchStart={handleTouchStart}
@@ -215,7 +209,6 @@ export function TaskItem({
         }`}
       >
         <div className="flex min-w-0 flex-1 items-center gap-3">
-          {/* Sharp Square Checkbox */}
           <button
             type="button"
             data-no-drag="true"
@@ -233,7 +226,6 @@ export function TaskItem({
             {isCompleted && <Check className="h-3 w-3 stroke-[2.5]" />}
           </button>
 
-          {/* Task Title + Compact Time & Priority metadata */}
           <button
             type="button"
             onClick={(e) => {
@@ -277,7 +269,6 @@ export function TaskItem({
           </button>
         </div>
 
-        {/* Trailing Action Icons (Trash + SquarePen) */}
         <div className="flex shrink-0 items-center gap-0.5">
           <button
             type="button"

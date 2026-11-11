@@ -16,9 +16,6 @@ export class ApiError extends Error {
   }
 }
 
-/**
- * Lightweight, framework-agnostic HTTP client for the Todo API.
- */
 export async function request(path, options = {}) {
   const { method = 'GET', body, params, skipAuth = false } = options;
 

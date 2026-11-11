@@ -46,7 +46,6 @@
   animation: fadeIn 0.2s ease-out forwards;
 }
 
-/* Hide scrollbars cleanly while keeping scrollability */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }

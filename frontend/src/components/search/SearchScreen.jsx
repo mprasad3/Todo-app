@@ -67,7 +67,6 @@ function SwipeableSearchRow({ task, query, onToggle, onEdit, onDelete }) {
     setTimeout(() => onDelete(task._id), 280);
   };
 
-  // Touch Handlers (Mobile / Responsive)
   const handleTouchStart = (e) => {
     if (isDeleting) return;
     startXRef.current = e.touches[0].clientX;
@@ -119,7 +118,6 @@ function SwipeableSearchRow({ task, query, onToggle, onEdit, onDelete }) {
     }, 60);
   };
 
-  // Mouse Handlers (Desktop View)
   const handleMouseDown = (e) => {
     if (e.button !== 0 || isDeleting) return;
     if (e.target.closest('button[data-no-drag="true"]')) return;
@@ -193,7 +191,6 @@ function SwipeableSearchRow({ task, query, onToggle, onEdit, onDelete }) {
       className="relative overflow-hidden border-b border-[#F3F4F6]"
       style={{ opacity: isDeleting ? 0 : 1, transition: isDeleting ? 'opacity 0.25s ease' : undefined }}
     >
-      {/* Swipe-Left Delete Drawer */}
       <div
         className="absolute inset-y-0 right-0 flex items-center justify-end overflow-hidden"
         style={{
@@ -214,7 +211,6 @@ function SwipeableSearchRow({ task, query, onToggle, onEdit, onDelete }) {
         </button>
       </div>
 
-      {/* Foreground Row — draggable via touch (mobile) & mouse (desktop) */}
       <div
         onMouseDown={handleMouseDown}
         onTouchStart={handleTouchStart}
@@ -291,7 +287,6 @@ function SwipeableSearchRow({ task, query, onToggle, onEdit, onDelete }) {
           </button>
         </div>
 
-        {/* Trailing Action Icons */}
         <div className="flex shrink-0 items-center gap-0.5">
           <button
             type="button"
@@ -390,7 +385,6 @@ export function SearchScreen({
 
   return (
     <div className="flex flex-1 flex-col overflow-hidden bg-white">
-      {/* Header matching Figma Frame 9 */}
       <div className="px-5 pt-5 pb-3">
         <button
           type="button"
@@ -401,7 +395,6 @@ export function SearchScreen({
           <ArrowLeft className="h-5 w-5" />
         </button>
 
-        {/* Search Input Box */}
         <div className="mt-4 flex h-[48px] items-center rounded-none border border-[#E5E7EB] px-3.5 focus-within:border-[#4566EC]">
           <input
             type="text"
@@ -415,7 +408,6 @@ export function SearchScreen({
         </div>
       </div>
 
-      {/* Results List */}
       <div className="no-scrollbar flex-1 overflow-y-auto px-5 pb-8">
         {error && (
           <p className="mt-2 rounded-none bg-red-50 px-3 py-2 text-[12px] text-red-600">

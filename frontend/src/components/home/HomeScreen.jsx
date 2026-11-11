@@ -25,7 +25,6 @@ export function HomeScreen({
 }) {
   return (
     <div className="relative flex flex-1 flex-col overflow-hidden bg-white">
-      {/* Pinned Top Section: TopBar, Error Notice, Calendar Strip, Summary Cards */}
       <div className="shrink-0 bg-white">
         <TopBar onOpenSearch={onOpenSearch} />
 
@@ -55,7 +54,6 @@ export function HomeScreen({
         />
       </div>
 
-      {/* Dedicated Scrollable Tasks Section */}
       <TaskList
         tasks={tasks}
         selectedDate={selectedDate}
@@ -69,7 +67,6 @@ export function HomeScreen({
         onDeleteTask={onDeleteTask}
       />
 
-      {/* Centered Floating Action Button (+) */}
       <div className="pointer-events-none absolute inset-x-0 bottom-7 flex justify-center">
         <button
           type="button"

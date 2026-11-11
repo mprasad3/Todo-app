@@ -11,7 +11,7 @@ export default function App() {
   const session = useSession();
   const tasksState = useTasks(session.isAuthenticated);
 
-  const [activeScreen, setActiveScreen] = useState('home'); // 'home' | 'search'
+  const [activeScreen, setActiveScreen] = useState('home');
   const [modalState, setModalState] = useState({
     isOpen: false,
     mode: 'create',
@@ -32,9 +32,7 @@ export default function App() {
           prev.isOpen && prev.task?._id === task._id ? { ...prev, task: freshTask } : prev
         );
       }
-    } catch {
-      // Fall back to existing task data cleanly if detail fetch fails
-    }
+    } catch {}
   };
 
   const closeModal = () => {

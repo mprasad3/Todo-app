@@ -14,8 +14,8 @@ const EMPTY_SUMMARY = {
 
 export function useTasks(isAuthenticated) {
   const [selectedDate, setSelectedDate] = useState(() => getTodayDateStr());
-  const [viewMode, setViewMode] = useState('day'); // 'day' | 'week'
-  const [statusFilter, setStatusFilter] = useState(null); // null | 'completed' | 'in_progress'
+  const [viewMode, setViewMode] = useState('day');
+  const [statusFilter, setStatusFilter] = useState(null);
   const [tasks, setTasks] = useState([]);
   const [weeklySummary, setWeeklySummary] = useState(EMPTY_SUMMARY);
   const [isLoading, setIsLoading] = useState(false);

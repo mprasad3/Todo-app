@@ -99,7 +99,6 @@ export async function weeklySummary(req, res) {
 
   const byStatus = Object.fromEntries(counts.map(({ _id, count }) => [_id, count]));
 
-  // Day-by-day breakdown (Mon-Sun)
   const dailyAgg = await Task.aggregate([
     { $match: { userId: req.user._id, dueAt: { $gte: start, $lt: end } } },
     {
@@ -113,12 +112,11 @@ export async function weeklySummary(req, res) {
     }
   ]);
 
-  // Build 7-day array (Mon=1 ... Sun=7), MongoDB $dayOfWeek: Sun=1, Mon=2 ... Sat=7
   const days = Array.from({ length: 7 }, (_, i) => ({ day: i + 1, completed: 0, in_progress: 0 }));
   for (const item of dailyAgg) {
-    // Convert MongoDB dayOfWeek (1=Sun) to 0-indexed Mon-first
-    const mongoDay = item._id.dayOfWeek; // 1=Sun,2=Mon,...,7=Sat
-    const idx = mongoDay === 1 ? 6 : mongoDay - 2; // Mon=0 ... Sun=6
+    // MongoDB $dayOfWeek returns 1 (Sun) to 7 (Sat); map to 0-indexed Mon-Sun
+    const mongoDay = item._id.dayOfWeek;
+    const idx = mongoDay === 1 ? 6 : mongoDay - 2;
     if (days[idx]) days[idx][item._id.status] = item.count;
   }
 

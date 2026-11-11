@@ -12,9 +12,7 @@ export function WeeklySummaryCards({
 
   return (
     <section className="px-6 pt-6">
-      {/* 2-Column Summary Cards matching Figma Image 2 */}
       <div className="grid grid-cols-2 gap-4">
-        {/* Card 1: Task Complete */}
         <button
           type="button"
           onClick={() => onSelectSummaryCard('completed')}
@@ -41,7 +39,6 @@ export function WeeklySummaryCards({
           </div>
         </button>
 
-        {/* Card 2: Task Pending */}
         <button
           type="button"
           onClick={() => onSelectSummaryCard('in_progress')}
@@ -69,7 +66,6 @@ export function WeeklySummaryCards({
         </button>
       </div>
 
-      {/* Weekly Progress Section matching Figma */}
       <div className="mt-7" title={`Weekly Progress: ${progressPercent}%`}>
         <h2 className="text-[16px] font-bold text-[#111827]">Weekly Progress</h2>
 

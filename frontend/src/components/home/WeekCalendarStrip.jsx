@@ -62,17 +62,15 @@ export function WeekCalendarStrip({
 
   const containerRef = useRef(null);
 
-  // Drag tracking refs
   const startXRef = useRef(0);
   const startYRef = useRef(0);
   const startTimeRef = useRef(0);
-  const axisRef = useRef(null); // 'h' | 'v' | null
+  const axisRef = useRef(null);
   const hasMovedRef = useRef(false);
   const isDraggingRef = useRef(false);
   const isAnimatingRef = useRef(false);
   const isMouseDownRef = useRef(false);
 
-  // Visual position state
   const [dragX, setDragX] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [targetPercent, setTargetPercent] = useState(-100);
@@ -83,12 +81,11 @@ export function WeekCalendarStrip({
     setIsDragging(false);
 
     const dt = Math.max(1, Date.now() - startTimeRef.current);
-    const velocity = Math.abs(dx) / dt; // px/ms
+    const velocity = Math.abs(dx) / dt;
     const isFlick = velocity > 0.22 && Math.abs(dx) > 18;
     const isLongDrag = Math.abs(dx) > 42;
 
     if ((isLongDrag || isFlick) && dx < 0) {
-      // Swiped left -> advance to Next Week
       setIsAnimating(true);
       isAnimatingRef.current = true;
       setTargetPercent(-200);
@@ -104,7 +101,6 @@ export function WeekCalendarStrip({
         }, 50);
       }, 250);
     } else if ((isLongDrag || isFlick) && dx > 0) {
-      // Swiped right -> go to Previous Week
       setIsAnimating(true);
       isAnimatingRef.current = true;
       setTargetPercent(0);
@@ -120,7 +116,6 @@ export function WeekCalendarStrip({
         }, 50);
       }, 250);
     } else {
-      // Not enough distance/speed -> snap back smoothly to current week
       setIsAnimating(true);
       isAnimatingRef.current = true;
       setTargetPercent(-100);
@@ -136,7 +131,6 @@ export function WeekCalendarStrip({
     }
   };
 
-  // Touch event handlers attached directly with passive: false to allow e.preventDefault()
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
@@ -200,7 +194,6 @@ export function WeekCalendarStrip({
     };
   }, [onShiftWeek]);
 
-  // Mouse drag handlers for desktop support
   const handleMouseDown = (e) => {
     if (e.button !== 0 || isAnimatingRef.current) return;
     isMouseDownRef.current = true;
@@ -261,21 +254,18 @@ export function WeekCalendarStrip({
             willChange: 'transform',
           }}
         >
-          {/* Previous Week */}
           <WeekRow
             days={prevWeekDays}
             selectedDate={selectedDate}
             onSelectDate={onSelectDate}
             hasMovedRef={hasMovedRef}
           />
-          {/* Current Week */}
           <WeekRow
             days={currWeekDays}
             selectedDate={selectedDate}
             onSelectDate={onSelectDate}
             hasMovedRef={hasMovedRef}
           />
-          {/* Next Week */}
           <WeekRow
             days={nextWeekDays}
             selectedDate={selectedDate}

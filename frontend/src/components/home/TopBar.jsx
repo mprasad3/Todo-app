@@ -3,7 +3,6 @@ import { Search } from 'lucide-react';
 export function TopBar({ onOpenSearch }) {
   return (
     <header className="px-6 pt-7 pb-1">
-      {/* Search Bar matching Figma Image 1 */}
       <button
         type="button"
         onClick={onOpenSearch}

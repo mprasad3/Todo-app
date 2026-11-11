@@ -26,7 +26,6 @@ export function TaskList({
 
   return (
     <section className="flex flex-1 min-h-0 flex-col pt-5">
-      {/* Pinned Section Header ("Tasks Today" / "Tasks This Week" | "View All") */}
       <div className="flex shrink-0 items-center justify-between px-6 pb-2.5 bg-white">
         <div className="flex items-center gap-2">
           <h2 className="text-[16px] font-bold text-[#111827]">{heading}</h2>
@@ -50,7 +49,6 @@ export function TaskList({
         </button>
       </div>
 
-      {/* Only this task items container scrolls */}
       <div className="no-scrollbar flex-1 overflow-y-auto px-6 pb-28">
         {isLoading ? (
           <div className="space-y-3 py-3">

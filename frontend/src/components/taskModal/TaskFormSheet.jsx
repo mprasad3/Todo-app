@@ -78,9 +78,7 @@ export function TaskFormSheet({
       try {
         ref.current.showPicker();
         return;
-      } catch {
-        // Fallback to focus
-      }
+      } catch {}
     }
     ref.current.focus();
   };
@@ -133,7 +131,6 @@ export function TaskFormSheet({
         className="animate-sheet-up max-h-[92%] sm:max-h-[88%] w-full overflow-y-auto rounded-none bg-white px-6 pt-5 pb-6 shadow-2xl no-scrollbar"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Modal Header matching Figma Design */}
         <div className="flex items-center justify-between">
           <h2 className="text-[17px] sm:text-[18px] font-semibold text-[#111827]">
             {mode === 'edit' ? 'Edit Task' : 'Add New Task'}
@@ -149,13 +146,12 @@ export function TaskFormSheet({
         </div>
 
         <form onSubmit={handleFormSubmit} className="mt-4 space-y-3">
-          {/* Task Title */}
           <div>
             <label
               htmlFor="task-title"
               className="mb-1 block text-[12px] font-normal text-[#6B7280]"
             >
-              Task title
+              Task title <span className="text-[#EF4444]">*</span>
             </label>
             <input
               id="task-title"
@@ -168,10 +164,9 @@ export function TaskFormSheet({
             />
           </div>
 
-          {/* Set Time (Start & Ends) — Two equal columns matching Screenshot */}
           <div>
             <span className="mb-1 block text-[12px] font-normal text-[#6B7280]">
-              Set Time
+              Set Time <span className="text-[#EF4444]">*</span>
             </span>
             <div className="grid grid-cols-2 gap-3.5">
               <div
@@ -220,10 +215,9 @@ export function TaskFormSheet({
             </div>
           </div>
 
-          {/* Set Date */}
           <div>
             <span className="mb-1 block text-[12px] font-normal text-[#6B7280]">
-              Set Date
+              Set Date <span className="text-[#EF4444]">*</span>
             </span>
             <div
               onClick={() => openPicker(dateInputRef)}
@@ -244,7 +238,6 @@ export function TaskFormSheet({
             </div>
           </div>
 
-          {/* Optional Priority Selector in Edit Mode */}
           {mode === 'edit' && (
             <div>
               <span className="mb-1 block text-[12px] font-normal text-[#6B7280]">
@@ -272,7 +265,6 @@ export function TaskFormSheet({
             </div>
           )}
 
-          {/* Description */}
           <div>
             <label
               htmlFor="task-description"
@@ -297,7 +289,6 @@ export function TaskFormSheet({
             </p>
           )}
 
-          {/* Submit CTA Button matching Screenshot */}
           <div className="pt-1">
             <button
               type="submit"

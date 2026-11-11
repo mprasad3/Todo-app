@@ -14,9 +14,7 @@ export const storage = {
     try {
       if (token) localStorage.setItem(TOKEN_KEY, token);
       else localStorage.removeItem(TOKEN_KEY);
-    } catch {
-      // Ignore storage quota / privacy mode errors
-    }
+    } catch {}
   },
   getUser() {
     try {
@@ -30,9 +28,7 @@ export const storage = {
     try {
       if (user) localStorage.setItem(USER_KEY, JSON.stringify(user));
       else localStorage.removeItem(USER_KEY);
-    } catch {
-      // Ignore storage errors
-    }
+    } catch {}
   },
   hasOnboarded() {
     try {
@@ -45,9 +41,7 @@ export const storage = {
     try {
       if (value) localStorage.setItem(ONBOARDED_KEY, '1');
       else localStorage.removeItem(ONBOARDED_KEY);
-    } catch {
-      // Ignore
-    }
+    } catch {}
   },
   clearSession() {
     this.setToken(null);

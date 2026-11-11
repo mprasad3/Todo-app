@@ -1,11 +1,11 @@
 import { useRef, useState } from 'react';
-import { Check, Pencil, Trash2 } from 'lucide-react';
+import { Check, SquarePen, Trash2 } from 'lucide-react';
 import { extractDateStr, formatDisplayTime } from '../../utils/date.js';
 
 const PRIORITY_STYLES = {
-  high: 'bg-red-50 text-red-600',
-  medium: 'bg-amber-50 text-amber-700',
-  low: 'bg-emerald-50 text-emerald-700',
+  high: 'border border-red-200 bg-red-50 text-red-600',
+  medium: 'border border-yellow-300 bg-yellow-50 text-yellow-700',
+  low: 'border border-emerald-200 bg-emerald-50 text-emerald-700',
 };
 
 export function TaskItem({
@@ -70,9 +70,11 @@ export function TaskItem({
           .join(' – ')
       : '';
 
+  const priority = task.priority || 'medium';
+
   return (
-    <div className="relative overflow-hidden border-b border-[#F3F4F6] last:border-b-0">
-      {/* Revealed Swipe-Left Delete Drawer (PDF Step 4) */}
+    <div className="relative overflow-hidden border-b border-[#F1F5F9] last:border-b-0">
+      {/* Revealed Swipe-Left Delete Drawer */}
       <div className="absolute inset-y-0 right-0 flex w-[72px] items-center justify-center bg-[#EF4444]">
         <button
           type="button"
@@ -83,7 +85,7 @@ export function TaskItem({
         </button>
       </div>
 
-      {/* Foreground Task Row */}
+      {/* Foreground Task Row matching Figma Image 1 */}
       <div
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
@@ -94,22 +96,22 @@ export function TaskItem({
         }}
         className="relative flex items-center justify-between gap-3 bg-white py-3.5"
       >
-        <div className="flex min-w-0 flex-1 items-start gap-3">
-          {/* Custom Square Checkbox matching Figma */}
+        <div className="flex min-w-0 flex-1 items-center gap-3">
+          {/* Sharp Square Checkbox matching Figma Image 1 */}
           <button
             type="button"
             onClick={() => onToggle(task._id)}
             aria-label={isCompleted ? 'Mark task in progress' : 'Mark task completed'}
-            className={`mt-0.5 flex h-[18px] w-[18px] shrink-0 cursor-pointer items-center justify-center rounded-[4px] border-[1.5px] transition ${
+            className={`flex h-[18px] w-[18px] shrink-0 cursor-pointer items-center justify-center rounded-none border-[1.25px] transition ${
               isCompleted
-                ? 'border-[#3D5AF1] bg-[#EEF3FF] text-[#3D5AF1]'
-                : 'border-[#6A82FB] bg-white hover:bg-[#EEF3FF]/60'
+                ? 'border-[#6A82FB] bg-[#EEF2FF] text-[#4566EC]'
+                : 'border-[#6A82FB] bg-white hover:bg-[#EEF2FF]/60'
             }`}
           >
-            {isCompleted && <Check className="h-3 w-3 stroke-[2.8]" />}
+            {isCompleted && <Check className="h-3 w-3 stroke-[2.5]" />}
           </button>
 
-          {/* Task Title + Optional Time / Priority / Date metadata */}
+          {/* Task Title + Compact Time & Priority metadata */}
           <button
             type="button"
             onClick={() => {
@@ -122,53 +124,49 @@ export function TaskItem({
             className="min-w-0 flex-1 cursor-pointer text-left"
           >
             <p
-              className={`truncate text-[14px] font-medium transition ${
-                isCompleted ? 'text-[#9CA3AF] line-through' : 'text-[#111827]'
+              className={`truncate text-[13.5px] font-medium text-[#111827] ${
+                isCompleted ? 'line-through' : ''
               }`}
             >
               {task.title}
             </p>
-            {(timeRange || showDateBadge || task.priority !== 'medium') && (
-              <div className="mt-1 flex flex-wrap items-center gap-1.5">
-                {showDateBadge && (
-                  <span className="text-[11px] text-[#6B7280]">
-                    {extractDateStr(task.dueAt)}
-                  </span>
-                )}
-                {timeRange && (
-                  <span className="text-[11px] text-[#6B7280]">{timeRange}</span>
-                )}
-                {task.priority && task.priority !== 'medium' && (
-                  <span
-                    className={`rounded px-1.5 py-0.2 text-[10px] font-semibold capitalize ${
-                      PRIORITY_STYLES[task.priority] || ''
-                    }`}
-                  >
-                    {task.priority}
-                  </span>
-                )}
-              </div>
-            )}
+            <div className="mt-0.5 flex flex-wrap items-center gap-1.5">
+              {showDateBadge && (
+                <span className="text-[10.5px] text-[#6B7280]">
+                  {extractDateStr(task.dueAt)}
+                </span>
+              )}
+              {timeRange && (
+                <span className="text-[10.5px] text-[#6B7280]">{timeRange}</span>
+              )}
+              <span
+                className={`rounded-none px-1.5 py-0 text-[10px] font-medium capitalize ${
+                  PRIORITY_STYLES[priority] || PRIORITY_STYLES.medium
+                }`}
+              >
+                {priority}
+              </span>
+            </div>
           </button>
         </div>
 
-        {/* Trailing Action Icons matching Figma (Trash + Pencil) */}
-        <div className="flex shrink-0 items-center gap-1">
+        {/* Trailing Action Icons matching Figma Image 1 (Trash + SquarePen) */}
+        <div className="flex shrink-0 items-center gap-0.5">
           <button
             type="button"
             onClick={() => onDelete(task._id)}
             aria-label={`Delete ${task.title}`}
-            className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-[#9CA3AF] transition hover:bg-red-50 hover:text-[#EF4444]"
+            className="flex h-7 w-6 cursor-pointer items-center justify-center rounded-none text-[#B0B7C3] transition hover:bg-red-50 hover:text-[#EF4444]"
           >
-            <Trash2 className="h-[16px] w-[16px] stroke-[1.75]" />
+            <Trash2 className="h-[17px] w-[17px] stroke-[1.6]" />
           </button>
           <button
             type="button"
             onClick={() => onEdit(task)}
             aria-label={`Edit ${task.title}`}
-            className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-[#9CA3AF] transition hover:bg-slate-100 hover:text-[#3D5AF1]"
+            className="flex h-7 w-6 cursor-pointer items-center justify-center rounded-none text-[#B0B7C3] transition hover:bg-slate-100 hover:text-[#4566EC]"
           >
-            <Pencil className="h-[16px] w-[16px] stroke-[1.75]" />
+            <SquarePen className="h-[17px] w-[17px] stroke-[1.6]" />
           </button>
         </div>
       </div>

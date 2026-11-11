@@ -5,7 +5,6 @@ import { WeeklySummaryCards } from './WeeklySummaryCards.jsx';
 import { TaskList } from './TaskList.jsx';
 
 export function HomeScreen({
-  user,
   selectedDate,
   viewMode,
   statusFilter,
@@ -15,7 +14,6 @@ export function HomeScreen({
   error,
   onSelectDate,
   onShiftWeek,
-  onJumpToday,
   onToggleWeekView,
   onFilterBySummaryCard,
   onToggleTask,
@@ -23,22 +21,15 @@ export function HomeScreen({
   onOpenCreateModal,
   onOpenEditModal,
   onOpenSearch,
-  onLogout,
   onDismissError,
 }) {
   return (
     <div className="relative flex flex-1 flex-col overflow-hidden bg-white">
-      <div className="no-scrollbar flex-1 overflow-y-auto pb-24">
-        <TopBar
-          user={user}
-          openCount={weeklySummary?.open ?? 0}
-          onOpenSearch={onOpenSearch}
-          onLogout={onLogout}
-          onJumpToday={onJumpToday}
-        />
+      <div className="no-scrollbar flex-1 overflow-y-auto pb-28">
+        <TopBar onOpenSearch={onOpenSearch} />
 
         {error && (
-          <div className="mx-5 mt-3 flex items-center justify-between rounded-[8px] bg-red-50 px-3 py-2 text-[12px] text-red-600">
+          <div className="mx-6 mt-3 flex items-center justify-between rounded-none bg-red-50 px-3 py-2 text-[12px] text-red-600">
             <span>{error}</span>
             <button
               type="button"
@@ -54,7 +45,6 @@ export function HomeScreen({
           selectedDate={selectedDate}
           onSelectDate={onSelectDate}
           onShiftWeek={onShiftWeek}
-          onJumpToday={onJumpToday}
         />
 
         <WeeklySummaryCards
@@ -77,15 +67,15 @@ export function HomeScreen({
         />
       </div>
 
-      {/* Centered Floating Action Button (+) matching Figma */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-6 flex justify-center">
+      {/* Centered Floating Action Button (+) matching Figma Image 1 */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-7 flex justify-center">
         <button
           type="button"
           onClick={onOpenCreateModal}
           aria-label="Add new task"
-          className="pointer-events-auto flex h-[54px] w-[54px] cursor-pointer items-center justify-center rounded-full bg-[#3D5AF1] text-white shadow-[0_10px_25px_rgba(61,90,241,0.4)] transition hover:bg-[#324CDD] active:scale-95"
+          className="pointer-events-auto flex h-[58px] w-[58px] cursor-pointer items-center justify-center rounded-full bg-[#4566EC] text-white shadow-[0_4px_14px_rgba(69,102,236,0.22)] transition hover:bg-[#3655D6] active:scale-95"
         >
-          <Plus className="h-6 w-6 stroke-[2.4]" />
+          <Plus className="h-6 w-6 stroke-[1.8]" />
         </button>
       </div>
     </div>

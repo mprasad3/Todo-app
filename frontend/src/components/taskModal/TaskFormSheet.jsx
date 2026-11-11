@@ -4,15 +4,28 @@ import {
   combineDateAndTimeIso,
   extractDateStr,
   extractTimeStr,
+  formatDisplayTime,
   formatFigmaDate,
   getTodayDateStr,
   toUtcMidnightIso,
 } from '../../utils/date.js';
 
 const PRIORITIES = [
-  { value: 'low', label: 'Low' },
-  { value: 'medium', label: 'Medium' },
-  { value: 'high', label: 'High' },
+  {
+    value: 'low',
+    label: 'Low',
+    activeClass: 'border-emerald-500 bg-emerald-50 text-emerald-700',
+  },
+  {
+    value: 'medium',
+    label: 'Medium',
+    activeClass: 'border-yellow-500 bg-yellow-50 text-yellow-700',
+  },
+  {
+    value: 'high',
+    label: 'High',
+    activeClass: 'border-red-500 bg-red-50 text-red-600',
+  },
 ];
 
 export function TaskFormSheet({
@@ -59,6 +72,19 @@ export function TaskFormSheet({
 
   if (!isOpen) return null;
 
+  const openPicker = (ref) => {
+    if (!ref.current) return;
+    if (typeof ref.current.showPicker === 'function') {
+      try {
+        ref.current.showPicker();
+        return;
+      } catch {
+        // Fallback to focus/click if showPicker is blocked
+      }
+    }
+    ref.current.focus();
+  };
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     const trimmedTitle = title.trim();
@@ -100,34 +126,34 @@ export function TaskFormSheet({
 
   return (
     <div
-      className="animate-fade-in absolute inset-0 z-40 flex items-end bg-black/45"
+      className="animate-fade-in absolute inset-0 z-40 flex items-end bg-black/25"
       onClick={onClose}
     >
       <div
-        className="animate-sheet-up max-h-[90%] w-full overflow-y-auto rounded-t-[24px] bg-white px-6 pt-6 pb-7 shadow-2xl no-scrollbar"
+        className="animate-sheet-up max-h-[82%] w-full overflow-y-auto rounded-none bg-white px-6 pt-6 pb-6 shadow-2xl no-scrollbar"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Modal Header */}
+        {/* Modal Header matching Figma Image 1 */}
         <div className="flex items-center justify-between">
-          <h2 className="text-[19px] font-bold text-[#111827]">
+          <h2 className="text-[18px] font-semibold text-[#111827]">
             {mode === 'edit' ? 'Edit Task' : 'Add New Task'}
           </h2>
           <button
             type="button"
             onClick={onClose}
             aria-label="Close modal"
-            className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-[#111827] transition hover:bg-slate-100"
+            className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-none text-[#111827] transition hover:bg-slate-100"
           >
-            <X className="h-5 w-5" />
+            <X className="h-[18px] w-[18px] stroke-[1.75]" />
           </button>
         </div>
 
-        <form onSubmit={handleFormSubmit} className="mt-5 space-y-4">
+        <form onSubmit={handleFormSubmit} className="mt-5 space-y-3.5">
           {/* Task Title */}
           <div>
             <label
               htmlFor="task-title"
-              className="mb-1.5 block text-[12px] font-medium text-[#374151]"
+              className="mb-1.5 block text-[12px] font-normal text-[#6B7280]"
             >
               Task title
             </label>
@@ -138,71 +164,75 @@ export function TaskFormSheet({
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Doing Homework"
               maxLength={140}
-              className="h-[44px] w-full rounded-[6px] border border-[#E5E7EB] px-3.5 text-[14px] text-[#111827] placeholder-[#9CA3AF] outline-none transition focus:border-[#3D5AF1]"
+              className="h-[42px] w-full rounded-none border border-[#E5E7EB] px-3.5 text-[13.5px] text-[#111827] placeholder-[#9CA3AF] outline-none transition focus:border-[#4566EC]"
             />
           </div>
 
-          {/* Set Time (Start & Ends) */}
+          {/* Set Time (Start & Ends) — single clean Clock icon matching Figma */}
           <div>
-            <span className="mb-1.5 block text-[12px] font-medium text-[#374151]">
+            <span className="mb-1.5 block text-[12px] font-normal text-[#6B7280]">
               Set Time
             </span>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-3.5">
               <div
-                onClick={() => startInputRef.current?.showPicker?.() || startInputRef.current?.focus()}
-                className="relative flex h-[44px] cursor-pointer items-center gap-2 rounded-[6px] border border-[#E5E7EB] px-3 focus-within:border-[#3D5AF1]"
+                onClick={() => openPicker(startInputRef)}
+                className="relative flex h-[42px] cursor-pointer items-center gap-2.5 rounded-none border border-[#E5E7EB] px-3 transition focus-within:border-[#4566EC] hover:border-[#4566EC]/60"
               >
-                <Clock className="h-4 w-4 shrink-0 text-[#6B7280]" />
+                <Clock className="h-[16px] w-[16px] shrink-0 stroke-[1.75] text-[#111827]" />
+                <span
+                  className={`truncate text-[13.5px] ${
+                    startTime ? 'text-[#111827]' : 'text-[#374151]'
+                  }`}
+                >
+                  {startTime ? formatDisplayTime(`2000-01-01T${startTime}:00.000Z`) : 'Start'}
+                </span>
                 <input
                   ref={startInputRef}
                   type="time"
                   value={startTime}
                   onChange={(e) => setStartTime(e.target.value)}
                   aria-label="Start time"
-                  className="w-full cursor-pointer bg-transparent text-[13px] text-[#111827] outline-none"
+                  className="absolute inset-0 cursor-pointer opacity-0"
                 />
-                {!startTime && (
-                  <span className="pointer-events-none absolute left-9 bg-white pr-4 text-[13px] text-[#6B7280]">
-                    Start
-                  </span>
-                )}
               </div>
 
               <div
-                onClick={() => endInputRef.current?.showPicker?.() || endInputRef.current?.focus()}
-                className="relative flex h-[44px] cursor-pointer items-center gap-2 rounded-[6px] border border-[#E5E7EB] px-3 focus-within:border-[#3D5AF1]"
+                onClick={() => openPicker(endInputRef)}
+                className="relative flex h-[42px] cursor-pointer items-center gap-2.5 rounded-none border border-[#E5E7EB] px-3 transition focus-within:border-[#4566EC] hover:border-[#4566EC]/60"
               >
-                <Clock className="h-4 w-4 shrink-0 text-[#6B7280]" />
+                <Clock className="h-[16px] w-[16px] shrink-0 stroke-[1.75] text-[#111827]" />
+                <span
+                  className={`truncate text-[13.5px] ${
+                    endTime ? 'text-[#111827]' : 'text-[#374151]'
+                  }`}
+                >
+                  {endTime ? formatDisplayTime(`2000-01-01T${endTime}:00.000Z`) : 'Ends'}
+                </span>
                 <input
                   ref={endInputRef}
                   type="time"
                   value={endTime}
                   onChange={(e) => setEndTime(e.target.value)}
                   aria-label="End time"
-                  className="w-full cursor-pointer bg-transparent text-[13px] text-[#111827] outline-none"
+                  className="absolute inset-0 cursor-pointer opacity-0"
                 />
-                {!endTime && (
-                  <span className="pointer-events-none absolute left-9 bg-white pr-4 text-[13px] text-[#6B7280]">
-                    Ends
-                  </span>
-                )}
               </div>
             </div>
           </div>
 
           {/* Set Date */}
           <div>
-            <span className="mb-1.5 block text-[12px] font-medium text-[#374151]">
+            <span className="mb-1.5 block text-[12px] font-normal text-[#6B7280]">
               Set Date
             </span>
             <div
-              onClick={() => dateInputRef.current?.showPicker?.() || dateInputRef.current?.focus()}
-              className="relative flex h-[44px] cursor-pointer items-center justify-between rounded-[6px] border border-[#E5E7EB] px-3.5 transition hover:border-[#3D5AF1]/60"
+              onClick={() => openPicker(dateInputRef)}
+              className="relative flex h-[42px] cursor-pointer items-center justify-between rounded-none border border-[#E5E7EB] px-3.5 transition focus-within:border-[#4566EC] hover:border-[#4566EC]/60"
             >
-              <span className="text-[14px] text-[#111827]">
+              <span className="text-[13.5px] text-[#111827]">
                 {formatFigmaDate(dateStr)}
               </span>
-              <Calendar className="h-4 w-4 text-[#374151]" />
+              <Calendar className="h-[16px] w-[16px] stroke-[1.75] text-[#111827]" />
               <input
                 ref={dateInputRef}
                 type="date"
@@ -216,7 +246,7 @@ export function TaskFormSheet({
 
           {/* Priority Selector */}
           <div>
-            <span className="mb-1.5 block text-[12px] font-medium text-[#374151]">
+            <span className="mb-1.5 block text-[12px] font-normal text-[#6B7280]">
               Priority
             </span>
             <div className="grid grid-cols-3 gap-2">
@@ -227,9 +257,9 @@ export function TaskFormSheet({
                     key={item.value}
                     type="button"
                     onClick={() => setPriority(item.value)}
-                    className={`h-[36px] cursor-pointer rounded-[6px] border text-[13px] font-medium transition ${
+                    className={`h-[34px] cursor-pointer rounded-none border text-[12.5px] font-medium transition ${
                       active
-                        ? 'border-[#3D5AF1] bg-[#EEF3FF] text-[#3D5AF1]'
+                        ? item.activeClass
                         : 'border-[#E5E7EB] bg-white text-[#6B7280] hover:bg-slate-50'
                     }`}
                   >
@@ -244,7 +274,7 @@ export function TaskFormSheet({
           <div>
             <label
               htmlFor="task-description"
-              className="mb-1.5 block text-[12px] font-medium text-[#374151]"
+              className="mb-1.5 block text-[12px] font-normal text-[#6B7280]"
             >
               Description
             </label>
@@ -255,21 +285,21 @@ export function TaskFormSheet({
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Add Description"
               maxLength={2000}
-              className="w-full resize-none rounded-[6px] border border-[#E5E7EB] p-3.5 text-[14px] text-[#111827] placeholder-[#9CA3AF] outline-none transition focus:border-[#3D5AF1]"
+              className="h-[94px] w-full resize-none rounded-none border border-[#E5E7EB] px-3.5 py-2.5 text-[13.5px] text-[#111827] placeholder-[#9CA3AF] outline-none transition focus:border-[#4566EC]"
             />
           </div>
 
           {formError && (
-            <p className="rounded-[6px] bg-red-50 px-3 py-2 text-[12px] text-red-600">
+            <p className="rounded-none bg-red-50 px-3 py-2 text-[12px] text-red-600">
               {formError}
             </p>
           )}
 
-          {/* Submit CTA Button */}
+          {/* Submit CTA Button matching Figma Image 1 */}
           <button
             type="submit"
             disabled={isSaving}
-            className="mt-2 h-[48px] w-full cursor-pointer rounded-[8px] bg-[#3D5AF1] text-[15px] font-semibold text-white transition hover:bg-[#324CDD] disabled:cursor-not-allowed disabled:opacity-60"
+            className="mt-1 h-[46px] w-full cursor-pointer rounded-none bg-[#4566EC] text-[14.5px] font-medium text-white transition hover:bg-[#3655D6] disabled:cursor-not-allowed disabled:opacity-60"
           >
             {isSaving
               ? 'Saving...'

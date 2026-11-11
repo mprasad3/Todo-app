@@ -79,7 +79,7 @@ export function TaskFormSheet({
         ref.current.showPicker();
         return;
       } catch {
-        // Fallback to focus/click if showPicker is blocked
+        // Fallback to focus
       }
     }
     ref.current.focus();
@@ -126,16 +126,16 @@ export function TaskFormSheet({
 
   return (
     <div
-      className="animate-fade-in absolute inset-0 z-40 flex items-end bg-black/25"
+      className="animate-fade-in absolute inset-0 z-40 flex items-end bg-black/35"
       onClick={onClose}
     >
       <div
-        className="animate-sheet-up max-h-[82%] w-full overflow-y-auto rounded-none bg-white px-6 pt-6 pb-6 shadow-2xl no-scrollbar"
+        className="animate-sheet-up max-h-[92%] sm:max-h-[88%] w-full overflow-y-auto rounded-none bg-white px-6 pt-5 pb-6 shadow-2xl no-scrollbar"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Modal Header matching Figma Image 1 */}
+        {/* Modal Header matching Figma Design */}
         <div className="flex items-center justify-between">
-          <h2 className="text-[18px] font-semibold text-[#111827]">
+          <h2 className="text-[17px] sm:text-[18px] font-semibold text-[#111827]">
             {mode === 'edit' ? 'Edit Task' : 'Add New Task'}
           </h2>
           <button
@@ -144,16 +144,16 @@ export function TaskFormSheet({
             aria-label="Close modal"
             className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-none text-[#111827] transition hover:bg-slate-100"
           >
-            <X className="h-[18px] w-[18px] stroke-[1.75]" />
+            <X className="h-[18px] w-[18px] stroke-[1.8]" />
           </button>
         </div>
 
-        <form onSubmit={handleFormSubmit} className="mt-5 space-y-3.5">
+        <form onSubmit={handleFormSubmit} className="mt-4 space-y-3">
           {/* Task Title */}
           <div>
             <label
               htmlFor="task-title"
-              className="mb-1.5 block text-[12px] font-normal text-[#6B7280]"
+              className="mb-1 block text-[12px] font-normal text-[#6B7280]"
             >
               Task title
             </label>
@@ -168,9 +168,9 @@ export function TaskFormSheet({
             />
           </div>
 
-          {/* Set Time (Start & Ends) — single clean Clock icon matching Figma */}
+          {/* Set Time (Start & Ends) — Two equal columns matching Screenshot */}
           <div>
-            <span className="mb-1.5 block text-[12px] font-normal text-[#6B7280]">
+            <span className="mb-1 block text-[12px] font-normal text-[#6B7280]">
               Set Time
             </span>
             <div className="grid grid-cols-2 gap-3.5">
@@ -178,7 +178,7 @@ export function TaskFormSheet({
                 onClick={() => openPicker(startInputRef)}
                 className="relative flex h-[42px] cursor-pointer items-center gap-2.5 rounded-none border border-[#E5E7EB] px-3 transition focus-within:border-[#4566EC] hover:border-[#4566EC]/60"
               >
-                <Clock className="h-[16px] w-[16px] shrink-0 stroke-[1.75] text-[#111827]" />
+                <Clock className="h-[16px] w-[16px] shrink-0 stroke-[1.8] text-[#111827]" />
                 <span
                   className={`truncate text-[13.5px] ${
                     startTime ? 'text-[#111827]' : 'text-[#374151]'
@@ -200,7 +200,7 @@ export function TaskFormSheet({
                 onClick={() => openPicker(endInputRef)}
                 className="relative flex h-[42px] cursor-pointer items-center gap-2.5 rounded-none border border-[#E5E7EB] px-3 transition focus-within:border-[#4566EC] hover:border-[#4566EC]/60"
               >
-                <Clock className="h-[16px] w-[16px] shrink-0 stroke-[1.75] text-[#111827]" />
+                <Clock className="h-[16px] w-[16px] shrink-0 stroke-[1.8] text-[#111827]" />
                 <span
                   className={`truncate text-[13.5px] ${
                     endTime ? 'text-[#111827]' : 'text-[#374151]'
@@ -222,7 +222,7 @@ export function TaskFormSheet({
 
           {/* Set Date */}
           <div>
-            <span className="mb-1.5 block text-[12px] font-normal text-[#6B7280]">
+            <span className="mb-1 block text-[12px] font-normal text-[#6B7280]">
               Set Date
             </span>
             <div
@@ -232,7 +232,7 @@ export function TaskFormSheet({
               <span className="text-[13.5px] text-[#111827]">
                 {formatFigmaDate(dateStr)}
               </span>
-              <Calendar className="h-[16px] w-[16px] stroke-[1.75] text-[#111827]" />
+              <Calendar className="h-[16px] w-[16px] stroke-[1.8] text-[#111827]" />
               <input
                 ref={dateInputRef}
                 type="date"
@@ -244,37 +244,39 @@ export function TaskFormSheet({
             </div>
           </div>
 
-          {/* Priority Selector */}
-          <div>
-            <span className="mb-1.5 block text-[12px] font-normal text-[#6B7280]">
-              Priority
-            </span>
-            <div className="grid grid-cols-3 gap-2">
-              {PRIORITIES.map((item) => {
-                const active = priority === item.value;
-                return (
-                  <button
-                    key={item.value}
-                    type="button"
-                    onClick={() => setPriority(item.value)}
-                    className={`h-[34px] cursor-pointer rounded-none border text-[12.5px] font-medium transition ${
-                      active
-                        ? item.activeClass
-                        : 'border-[#E5E7EB] bg-white text-[#6B7280] hover:bg-slate-50'
-                    }`}
-                  >
-                    {item.label}
-                  </button>
-                );
-              })}
+          {/* Optional Priority Selector in Edit Mode */}
+          {mode === 'edit' && (
+            <div>
+              <span className="mb-1 block text-[12px] font-normal text-[#6B7280]">
+                Priority
+              </span>
+              <div className="grid grid-cols-3 gap-2">
+                {PRIORITIES.map((item) => {
+                  const active = priority === item.value;
+                  return (
+                    <button
+                      key={item.value}
+                      type="button"
+                      onClick={() => setPriority(item.value)}
+                      className={`h-[30px] cursor-pointer rounded-none border text-[11.5px] font-medium transition ${
+                        active
+                          ? item.activeClass
+                          : 'border-[#E5E7EB] bg-white text-[#6B7280] hover:bg-slate-50'
+                      }`}
+                    >
+                      {item.label}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Description */}
           <div>
             <label
               htmlFor="task-description"
-              className="mb-1.5 block text-[12px] font-normal text-[#6B7280]"
+              className="mb-1 block text-[12px] font-normal text-[#6B7280]"
             >
               Description
             </label>
@@ -285,7 +287,7 @@ export function TaskFormSheet({
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Add Description"
               maxLength={2000}
-              className="h-[94px] w-full resize-none rounded-none border border-[#E5E7EB] px-3.5 py-2.5 text-[13.5px] text-[#111827] placeholder-[#9CA3AF] outline-none transition focus:border-[#4566EC]"
+              className="h-[78px] w-full resize-none rounded-none border border-[#E5E7EB] px-3.5 py-2 text-[13.5px] text-[#111827] placeholder-[#9CA3AF] outline-none transition focus:border-[#4566EC]"
             />
           </div>
 
@@ -295,18 +297,20 @@ export function TaskFormSheet({
             </p>
           )}
 
-          {/* Submit CTA Button matching Figma Image 1 */}
-          <button
-            type="submit"
-            disabled={isSaving}
-            className="mt-1 h-[46px] w-full cursor-pointer rounded-none bg-[#4566EC] text-[14.5px] font-medium text-white transition hover:bg-[#3655D6] disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {isSaving
-              ? 'Saving...'
-              : mode === 'edit'
-                ? 'Save changes'
-                : 'Create task'}
-          </button>
+          {/* Submit CTA Button matching Screenshot */}
+          <div className="pt-1">
+            <button
+              type="submit"
+              disabled={isSaving}
+              className="h-[46px] w-full cursor-pointer rounded-none bg-[#4566EC] text-[14.5px] font-medium text-white transition hover:bg-[#3655D6] disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {isSaving
+                ? 'Saving...'
+                : mode === 'edit'
+                  ? 'Save changes'
+                  : 'Create task'}
+            </button>
+          </div>
         </form>
       </div>
     </div>

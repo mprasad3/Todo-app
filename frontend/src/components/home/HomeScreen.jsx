@@ -25,7 +25,8 @@ export function HomeScreen({
 }) {
   return (
     <div className="relative flex flex-1 flex-col overflow-hidden bg-white">
-      <div className="no-scrollbar flex-1 overflow-y-auto pb-28">
+      {/* Pinned Top Section: TopBar, Error Notice, Calendar Strip, Summary Cards */}
+      <div className="shrink-0 bg-white">
         <TopBar onOpenSearch={onOpenSearch} />
 
         {error && (
@@ -52,22 +53,23 @@ export function HomeScreen({
           activeStatusFilter={statusFilter}
           onSelectSummaryCard={onFilterBySummaryCard}
         />
-
-        <TaskList
-          tasks={tasks}
-          selectedDate={selectedDate}
-          viewMode={viewMode}
-          statusFilter={statusFilter}
-          isLoading={isLoading}
-          onToggleViewAll={onToggleWeekView}
-          onClearStatusFilter={() => onFilterBySummaryCard(null)}
-          onToggleTask={onToggleTask}
-          onEditTask={onOpenEditModal}
-          onDeleteTask={onDeleteTask}
-        />
       </div>
 
-      {/* Centered Floating Action Button (+) matching Figma Image 1 */}
+      {/* Dedicated Scrollable Tasks Section */}
+      <TaskList
+        tasks={tasks}
+        selectedDate={selectedDate}
+        viewMode={viewMode}
+        statusFilter={statusFilter}
+        isLoading={isLoading}
+        onToggleViewAll={onToggleWeekView}
+        onClearStatusFilter={() => onFilterBySummaryCard(null)}
+        onToggleTask={onToggleTask}
+        onEditTask={onOpenEditModal}
+        onDeleteTask={onDeleteTask}
+      />
+
+      {/* Centered Floating Action Button (+) */}
       <div className="pointer-events-none absolute inset-x-0 bottom-7 flex justify-center">
         <button
           type="button"

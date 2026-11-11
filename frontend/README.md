@@ -1,13 +1,14 @@
 # Frontend
 
-This folder is reserved for the React + Tailwind application. Use the UI prompt in the repository root to generate or implement the interface, then point `VITE_API_URL` at the backend (for example `http://localhost:4000/api/v1`).
+React + Tailwind (Vite) app for the Todo Task Manager, deployed on Netlify together with its API.
 
-Recommended setup:
+- The API lives in `netlify/server/index.ts` (Express, served as a Netlify Server on `/api/*`). It implements the same `/api/v1/sessions` and `/api/v1/tasks` endpoints described in `../backend/README.md`.
+- Data is stored in Netlify Database (Postgres) via Drizzle ORM. The schema is in `db/schema.ts`; migrations live in `netlify/database/migrations/` and are applied automatically on deploy. After changing the schema run `npx drizzle-kit generate --name <change_name>`.
+- The frontend calls the API on the same origin (`/api/v1`) by default. `VITE_API_URL` can override this; localhost URLs are ignored when the app isn't itself running on localhost.
+
+Local development:
 
 ```bash
-npm create vite@latest . -- --template react
 npm install
-npm install -D tailwindcss @tailwindcss/vite
+netlify dev
 ```
-
-Keep API access in `src/services/tasks.js` and UI state in feature-level hooks or a lightweight store. Do not couple components directly to fetch calls.

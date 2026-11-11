@@ -6,13 +6,12 @@ import { SearchScreen } from './components/search/SearchScreen.jsx';
 import { TaskFormSheet } from './components/taskModal/TaskFormSheet.jsx';
 import { useSession } from './hooks/useSession.js';
 import { useTasks } from './hooks/useTasks.js';
-import { getTodayDateStr } from './utils/date.js';
 
 export default function App() {
   const session = useSession();
   const tasksState = useTasks(session.isAuthenticated);
 
-  const [activeScreen, setActiveScreen] = useState('home'); // 'home' | 'search'
+  const [activeScreen, setActiveScreen] = useState('home');
   const [modalState, setModalState] = useState({
     isOpen: false,
     mode: 'create',
@@ -33,9 +32,7 @@ export default function App() {
           prev.isOpen && prev.task?._id === task._id ? { ...prev, task: freshTask } : prev
         );
       }
-    } catch {
-      // Fall back to existing task data cleanly if detail fetch fails
-    }
+    } catch {}
   };
 
   const closeModal = () => {
@@ -65,7 +62,7 @@ export default function App() {
     <MobileShell>
       {session.isBootstrapping ? (
         <div className="flex flex-1 flex-col items-center justify-center bg-white">
-          <div className="h-9 w-9 animate-spin rounded-full border-4 border-[#DDE3FF] border-t-[#3D5AF1]" />
+          <div className="h-9 w-9 animate-spin rounded-full border-4 border-[#DDE3FF] border-t-[#4566EC]" />
           <p className="mt-3 text-[13px] font-medium text-[#6B7280]">Loading workspace...</p>
         </div>
       ) : !session.isAuthenticated ? (
@@ -85,7 +82,6 @@ export default function App() {
         />
       ) : (
         <HomeScreen
-          user={session.user}
           selectedDate={tasksState.selectedDate}
           viewMode={tasksState.viewMode}
           statusFilter={tasksState.statusFilter}
@@ -95,7 +91,6 @@ export default function App() {
           error={tasksState.error}
           onSelectDate={tasksState.selectDate}
           onShiftWeek={tasksState.shiftWeek}
-          onJumpToday={() => tasksState.selectDate(getTodayDateStr())}
           onToggleWeekView={tasksState.toggleWeekView}
           onFilterBySummaryCard={tasksState.filterBySummaryCard}
           onToggleTask={handleToggleTask}
@@ -103,7 +98,6 @@ export default function App() {
           onOpenCreateModal={openCreateModal}
           onOpenEditModal={openEditModal}
           onOpenSearch={() => setActiveScreen('search')}
-          onLogout={session.logout}
           onDismissError={() => tasksState.setError(null)}
         />
       )}

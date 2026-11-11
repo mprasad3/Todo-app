@@ -37,7 +37,6 @@ export function useSession() {
         }
       } catch (err) {
         if (!active) return;
-        // 401/403 is already cleared by httpClient's unauthorizedHandler
         if (err.status === 0) {
           setError(err.message);
         }
@@ -76,9 +75,7 @@ export function useSession() {
       if (storage.getToken()) {
         await sessionService.logout();
       }
-    } catch {
-      // Proceed to clear local session even if token already expired
-    } finally {
+    } catch {} finally {
       clearLocalAuth();
       setIsSubmitting(false);
     }

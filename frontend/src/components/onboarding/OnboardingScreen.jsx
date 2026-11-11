@@ -44,29 +44,22 @@ export function OnboardingScreen({ onLogin, isSubmitting, error, onClearError })
     setLocalError('');
     try {
       await onLogin(trimmed);
-    } catch {
-      // Error surfaced via hook state
-    }
+    } catch {}
   };
 
   const displayError = localError || error;
 
   return (
     <div className="relative flex flex-1 flex-col bg-white">
-      {/* Top Royal Blue Decorative Banner (~63% height matching Figma) */}
-      <div className="relative flex-[1.7] overflow-hidden bg-[#3D5AF1]">
-        {/* Top-right circular arc accent */}
+      <div className="relative flex-[1.7] overflow-hidden bg-[#4566EC]">
         <div
           className="pointer-events-none absolute -top-10 -right-10 h-36 w-36 rounded-full border-[18px] border-white/15"
           aria-hidden="true"
         />
-        {/* Middle-left chevron wave motif */}
         <ZigzagPattern className="pointer-events-none absolute top-[32%] -left-5 w-28 text-white/20" />
-        {/* Bottom-right chevron wave motif */}
         <ZigzagPattern className="pointer-events-none absolute right-2 bottom-6 w-28 text-white/20" />
       </div>
 
-      {/* Bottom White Card (~37% height matching Figma) */}
       <div className="flex flex-1 flex-col justify-between bg-white px-6 pt-8 pb-8">
         <div>
           <h1 className="text-[24px] leading-tight font-bold tracking-tight text-[#111827]">
@@ -80,20 +73,19 @@ export function OnboardingScreen({ onLogin, isSubmitting, error, onClearError })
         <button
           type="button"
           onClick={handleGetStarted}
-          className="mt-6 h-[50px] w-full cursor-pointer rounded-[8px] bg-[#3D5AF1] text-[15px] font-semibold text-white shadow-sm transition hover:bg-[#324CDD] active:scale-[0.99]"
+          className="mt-6 h-[50px] w-full cursor-pointer rounded-none bg-[#4566EC] text-[15px] font-semibold text-white shadow-sm transition hover:bg-[#3655D6] active:scale-[0.99]"
         >
           Get Started
         </button>
       </div>
 
-      {/* Username Login Sheet (Connects cleanly to POST /api/v1/sessions) */}
       {showUsernameSheet && (
         <div
           className="animate-fade-in absolute inset-0 z-30 flex items-end bg-black/45"
           onClick={() => setShowUsernameSheet(false)}
         >
           <div
-            className="animate-sheet-up w-full rounded-t-[24px] bg-white px-6 pt-6 pb-8 shadow-xl"
+            className="animate-sheet-up w-full rounded-none bg-white px-6 pt-6 pb-8 shadow-xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between">
@@ -101,7 +93,7 @@ export function OnboardingScreen({ onLogin, isSubmitting, error, onClearError })
               <button
                 type="button"
                 onClick={() => setShowUsernameSheet(false)}
-                className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-[#6B7280] transition hover:bg-slate-100"
+                className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-none text-[#6B7280] transition hover:bg-slate-100"
                 aria-label="Close login modal"
               >
                 <X className="h-5 w-5" />
@@ -127,12 +119,12 @@ export function OnboardingScreen({ onLogin, isSubmitting, error, onClearError })
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder="e.g. alice"
                   maxLength={40}
-                  className="h-[46px] w-full rounded-[8px] border border-[#E5E7EB] px-3.5 text-[14px] text-[#111827] placeholder-[#9CA3AF] transition outline-none focus:border-[#3D5AF1] focus:ring-2 focus:ring-[#3D5AF1]/15"
+                  className="h-[46px] w-full rounded-none border border-[#E5E7EB] px-3.5 text-[14px] text-[#111827] placeholder-[#9CA3AF] transition outline-none focus:border-[#4566EC] focus:ring-2 focus:ring-[#4566EC]/15"
                 />
               </div>
 
               {displayError && (
-                <p className="rounded-[6px] bg-red-50 px-3 py-2 text-[12px] text-red-600">
+                <p className="rounded-none bg-red-50 px-3 py-2 text-[12px] text-red-600">
                   {displayError}
                 </p>
               )}
@@ -140,7 +132,7 @@ export function OnboardingScreen({ onLogin, isSubmitting, error, onClearError })
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="h-[48px] w-full cursor-pointer rounded-[8px] bg-[#3D5AF1] text-[15px] font-semibold text-white transition hover:bg-[#324CDD] disabled:cursor-not-allowed disabled:opacity-60"
+                className="h-[48px] w-full cursor-pointer rounded-none bg-[#4566EC] text-[15px] font-semibold text-white transition hover:bg-[#3655D6] disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {isSubmitting ? 'Starting Session...' : 'Continue'}
               </button>

@@ -3,6 +3,7 @@ import { User } from '../models/user.model.js';
 import { createSessionToken, hashSessionToken } from '../utils/session-token.js';
 
 const SESSION_LENGTH_MS = 24 * 60 * 60 * 1000;
+const VALID_NAME_REGEX = /^[A-Za-z]+(?: [A-Za-z]+)*$/;
 
 function normaliseUsername(value) {
   return typeof value === 'string' ? value.trim().replace(/\s+/g, ' ') : '';
@@ -12,6 +13,9 @@ export async function startSession(req, res) {
   const username = normaliseUsername(req.body.username);
   if (username.length < 2 || username.length > 40) {
     return res.status(400).json({ error: { message: 'Username must be 2 to 40 characters' } });
+  }
+  if (!VALID_NAME_REGEX.test(username)) {
+    return res.status(400).json({ error: { message: 'Enter a valid name.' } });
   }
 
   const usernameKey = username.toLocaleLowerCase('en-US');

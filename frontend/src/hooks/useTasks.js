@@ -27,13 +27,10 @@ export function useTasks(isAuthenticated) {
     setIsLoading(true);
     setError(null);
     try {
-      const todayStr = getTodayDateStr();
       const tasksPromise =
         viewMode === 'week'
           ? taskService.list({ week: selectedDate, ...(statusFilter ? { status: statusFilter } : {}) })
-          : selectedDate === todayStr && !statusFilter
-            ? taskService.listToday()
-            : taskService.list({ date: selectedDate, ...(statusFilter ? { status: statusFilter } : {}) });
+          : taskService.list({ date: selectedDate, ...(statusFilter ? { status: statusFilter } : {}) });
 
       const summaryPromise = taskService.getWeeklySummary(selectedDate);
 

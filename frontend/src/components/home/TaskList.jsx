@@ -8,7 +8,6 @@ export function TaskList({
   statusFilter,
   isLoading,
   onToggleViewAll,
-  onClearStatusFilter,
   onToggleTask,
   onEditTask,
   onDeleteTask,
@@ -27,18 +26,7 @@ export function TaskList({
   return (
     <section className="flex flex-1 min-h-0 flex-col pt-5">
       <div className="flex shrink-0 items-center justify-between px-6 pb-2.5 bg-white">
-        <div className="flex items-center gap-2">
-          <h2 className="text-[16px] font-bold text-[#111827]">{heading}</h2>
-          {statusFilter && (
-            <button
-              type="button"
-              onClick={onClearStatusFilter}
-              className="cursor-pointer rounded-none bg-slate-100 px-2 py-0.5 text-[11px] font-medium text-[#6B7280] hover:bg-slate-200"
-            >
-              Clear
-            </button>
-          )}
-        </div>
+        <h2 className="text-[16px] font-bold text-[#111827]">{heading}</h2>
 
         <button
           type="button"

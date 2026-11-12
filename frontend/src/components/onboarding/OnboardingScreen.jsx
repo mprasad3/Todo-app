@@ -41,6 +41,10 @@ export function OnboardingScreen({ onLogin, isSubmitting, error, onClearError })
       setLocalError('Please enter a username between 2 and 40 characters.');
       return;
     }
+    if (!/^[A-Za-z]+(?: [A-Za-z]+)*$/.test(trimmed)) {
+      setLocalError('Enter a valid name.');
+      return;
+    }
     setLocalError('');
     try {
       await onLogin(trimmed);

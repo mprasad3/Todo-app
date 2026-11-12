@@ -61,7 +61,6 @@ export function HomeScreen({
         statusFilter={statusFilter}
         isLoading={isLoading}
         onToggleViewAll={onToggleWeekView}
-        onClearStatusFilter={() => onFilterBySummaryCard(null)}
         onToggleTask={onToggleTask}
         onEditTask={onOpenEditModal}
         onDeleteTask={onDeleteTask}

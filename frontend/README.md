@@ -1,13 +1,17 @@
-# Frontend
+# Frontend — Todo Task Manager
 
-This folder is reserved for the React + Tailwind application. Use the UI prompt in the repository root to generate or implement the interface, then point `VITE_API_URL` at the backend (for example `http://localhost:4000/api/v1`).
+- **Live Hosted Application:** [https://tododijiaccel.netlify.app/](https://tododijiaccel.netlify.app/)
 
-Recommended setup:
+This folder contains the React 18 + Tailwind CSS v4 client application.
+
+### Running Locally
 
 ```bash
-npm create vite@latest . -- --template react
+# Install dependencies
 npm install
-npm install -D tailwindcss @tailwindcss/vite
+
+# Start Vite dev server
+npm run dev
 ```
 
-Keep API access in `src/services/tasks.js` and UI state in feature-level hooks or a lightweight store. Do not couple components directly to fetch calls.
+The app will run at `http://localhost:5173`. Make sure `VITE_API_URL` in `.env` points to your backend (default: `http://localhost:4000/api/v1`).
